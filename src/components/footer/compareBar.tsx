@@ -25,7 +25,7 @@ function CompareBar() {
   }
 
   return (
-    <div className="fixed bottom-16 left-0 right-0 bg-white border-t shadow-lg px-3 py-3 sm:px-4 sm:py-4 transform translate-y-0 transition-transform duration-300 z-50 dark:bg-gray-800 dark:border-gray-700 pb-[env(safe-area-inset-bottom)]">
+    <div className="fixed bottom-16 lg:bottom-0 left-0 right-0 bg-white border-t shadow-lg px-3 py-3 sm:px-4 sm:py-4 transform translate-y-0 transition-transform duration-300 z-50 dark:bg-gray-800 dark:border-gray-700 pb-[env(safe-area-inset-bottom)]">
       <div className="mx-auto w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 w-full">
           <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">

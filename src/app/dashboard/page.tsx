@@ -221,30 +221,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Wishlist */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-600 flex justify-between items-center">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">My Wishlist</h2>
-            <a href="/dashboard-wishlist" className="text-sm font-medium text-primary-600 hover:text-primary-700">
-              View All
-            </a>
-          </div>
-          <div className="p-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {wishlistItems.map((item, index) => (
-                <div key={index} className="rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden group">
-                  <div className="relative w-full aspect-square">
-                    <img src={item.image} alt={item.title} className="w-full h-full objectCover" />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-white line-clamp-1">{item.title}</h3>
-                    <p className="text-base text-gray-900 dark:text-white font-semibold mt-1">﷼ {item.price}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+      
       </div>
   </>
 

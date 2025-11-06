@@ -27,7 +27,7 @@ function ProductImage({ thumbnail, hover, slug, name, title, badges, productId, 
   if (thumbnail) {
     return (
       <a
-        href={`/productDetails/${slug}`}
+        href={`#`}
         className="product-thumbnail relative block overflow-hidden rounded-lg lg:rounded-t-lg lg:rounded-b-none group"
       >
         {/* Product Badges */}
