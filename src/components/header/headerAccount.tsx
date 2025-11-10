@@ -22,7 +22,7 @@ const AccountDropdown: React.FC = () => {
   
   // Sync user data from localStorage if Redux doesn't have first_name
   useEffect(() => {
-    if (user && !user.first_name && typeof window !== 'undefined') {
+    if (user && !user.first_name) {
       try {
         const storedUserData = localStorage.getItem('userData');
         if (storedUserData) {

@@ -274,11 +274,9 @@ const QuickView: React.FC<QuickViewProps> = ({
   );
 
   // Render modal using portal to document body to avoid hover state issues
-  if (typeof window !== 'undefined') {
-    return createPortal(modalContent, document.body);
-  }
-
-  return null;
+  if (!isOpen) return null;
+  
+  return createPortal(modalContent, document.body);
 };
 
 export default QuickView;

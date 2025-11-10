@@ -35,6 +35,7 @@ interface ProductGalleryProps {
 
 export default function ProductGallery({images, productId, product}: ProductGalleryProps) {
   const { isRTL } = useRTL();
+  const [mounted, setMounted] = useState(false);
   const [mainRef, mainApi] = useEmblaCarousel({ direction: isRTL ? 'rtl' : 'ltr' });
   const [thumbsRef, thumbsApi] = useEmblaCarousel({ 
     containScroll: "keepSnaps", 
@@ -43,6 +44,11 @@ export default function ProductGallery({images, productId, product}: ProductGall
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isFavourite, setIsFavourite] = useState(false);
+  
+  // Ensure component is mounted before applying Embla styles to prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   const { token, isAuthenticated } = useAuth();
   const locale = useLocale();
@@ -199,12 +205,12 @@ export default function ProductGallery({images, productId, product}: ProductGall
         {galleryImages.length > 1 && (
           <>
             <NavigationArrow 
-              onClick={() => isRTL ? mainApi?.scrollNext() : mainApi?.scrollPrev()} 
+              onClick={() => mainApi?.scrollPrev()} 
               direction="prev" 
               isRTL={isRTL}
             />
             <NavigationArrow 
-              onClick={() => isRTL ? mainApi?.scrollPrev() : mainApi?.scrollNext()} 
+              onClick={() => mainApi?.scrollNext()} 
               direction="next" 
               isRTL={isRTL}
             />
@@ -223,12 +229,16 @@ export default function ProductGallery({images, productId, product}: ProductGall
 
       {/* Thumbnails - only show if more than one image */}
       {galleryImages.length > 1 && (
-        <div className="product-thumbnail embla-thumbs overflow-hidden" ref={thumbsRef}>
-          <div className="embla-thumbs__container flex gap-3">
+        <div className="product-thumbnail embla-thumbs overflow-hidden" ref={thumbsRef} data-react-managed="true" suppressHydrationWarning>
+          <div className="embla-thumbs__container flex gap-3" suppressHydrationWarning>
              {galleryImages.map((image: string | { url?: string; original_url?: string }, i: number) => {
                const src = typeof image === 'string' ? image : image.original_url ? image.original_url :image.url;
                return (
-                 <div key={i} className="embla-thumbs__slide flex-none">
+                 <div 
+                   key={i} 
+                   className={`embla-thumbs__slide flex-none ${mounted && selectedIndex === i ? 'embla-thumbs__slide--selected' : ''}`}
+                   suppressHydrationWarning
+                 >
                    <button
                      type="button"
                      onClick={() => onThumbClick(i)}

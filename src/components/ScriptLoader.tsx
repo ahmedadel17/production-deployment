@@ -18,14 +18,10 @@ export default function ScriptLoader({ scripts = [] }: ScriptLoaderProps) {
         const status = error?.response?.status;
         if (status === 401 || message === 'Unauthenticated') {
           try {
-            if (typeof window !== 'undefined') {
-              localStorage.removeItem('authToken');
-              localStorage.removeItem('userData');
-            }
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
           } catch {}
-          if (typeof window !== 'undefined') {
-            window.location.href = '/auth/login';
-          }
+          window.location.href = '/auth/login';
         }
         return Promise.reject(error);
       }
@@ -112,17 +108,7 @@ export default function ScriptLoader({ scripts = [] }: ScriptLoaderProps) {
 
   return (
     <>
-      {/* Load essential scripts */}
-      {/* <Script
-        src="/js/script.min.js"
-        strategy="afterInteractive"
-        onLoad={() => console.log('Main script loaded')}
-      /> */}
-      {/* <Script
-        src="/js/product-btns.min.js"
-        strategy="afterInteractive"
-        // onLoad={() => console.log('Product buttons script loaded')}
-      /> */}
+    
       <Script
         src="/js/embla-carousel.min.js"
         strategy="afterInteractive"
@@ -159,13 +145,15 @@ export default function ScriptLoader({ scripts = [] }: ScriptLoaderProps) {
       />
       
       {/* Load additional scripts if provided */}
-      {scripts.map((script, index) => (
-        <Script
-          key={index}
-          src={script}
-          strategy="afterInteractive"
-        />
-      ))}
+      {scripts
+        .filter(script => !script.includes('share-modal'))
+        .map((script, index) => (
+          <Script
+            key={index}
+            src={script}
+            strategy="afterInteractive"
+          />
+        ))}
     </>
   );
 }

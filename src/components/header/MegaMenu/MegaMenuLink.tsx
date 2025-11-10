@@ -3,7 +3,7 @@ import React from 'react'
 
 function MegaMenuLink({url, label}: {url: string, label: string}) {
   return (
-    <Link href={url} className="te-navbar-mega-menu-link">{label}</Link>
+    <Link href={url} prefetch={false} className="te-navbar-mega-menu-link">{label}</Link>
 
   )
 }

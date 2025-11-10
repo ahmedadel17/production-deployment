@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 export default function RunSliderInit() {
   useEffect(() => {
     try {
-      if (typeof window !== 'undefined' && typeof (window as any).initSiteSlider === 'function') {
+      if (typeof (window as any).initSiteSlider === 'function') {
         ;(window as any).initSiteSlider()
       }
     } catch {}

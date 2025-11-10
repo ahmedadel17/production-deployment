@@ -61,9 +61,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Initialize Gallery Carousel ONLY (exclude te-carousel embla)
-    const galleryEmblaNode = document.querySelector('.embla:not(.te-carousel .embla)');
-    if (galleryEmblaNode) {
+    // Initialize Gallery Carousel ONLY (exclude te-carousel embla and React-managed carousels)
+    // Exclude carousels that are inside product-gallery (React-managed) or have data-react-managed attribute
+    const galleryEmblaNode = document.querySelector('.embla:not(.te-carousel .embla):not(.product-gallery .embla):not([data-react-managed])');
+    if (galleryEmblaNode && !galleryEmblaNode.closest('.product-gallery')) {
         // Add autoplay to gallery carousel
         const galleryEmblaApi = EmblaCarousel(galleryEmblaNode, {
             loop: true,
@@ -79,9 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
             })
         ]);
 
-        // Initialize thumbnail carousel
-        const emblaThumbsNode = document.querySelector('.embla-thumbs');
-        if (emblaThumbsNode) {
+        // Initialize thumbnail carousel (only if not React-managed)
+        const emblaThumbsNode = document.querySelector('.embla-thumbs:not(.product-gallery .embla-thumbs):not([data-react-managed])');
+        if (emblaThumbsNode && !emblaThumbsNode.closest('.product-gallery')) {
             const emblaThumbsApi = EmblaCarousel(emblaThumbsNode, {
                 containScroll: 'keepSnaps',
                 dragFree: true
@@ -95,15 +96,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 const selectedIndex = galleryEmblaApi.selectedScrollSnap();
 
                 thumbSlides.forEach((slide, index) => {
-                    const img = slide.querySelector('.embla-thumbs__slide__img');
-                    if (index === selectedIndex) {
-                        slide.classList.add('embla-thumbs__slide--selected');
-                        img.classList.remove('border-transparent', 'opacity-60');
-                        img.classList.add('border-primary-500', 'opacity-100');
-                    } else {
-                        slide.classList.remove('embla-thumbs__slide--selected');
-                        img.classList.remove('border-primary-500', 'opacity-100');
-                        img.classList.add('border-transparent', 'opacity-60');
+                    // Check if img element exists before accessing it
+                    const img = slide.querySelector('.embla-thumbs__slide__img') || slide.querySelector('img') || slide.querySelector('button');
+                    if (img) {
+                        if (index === selectedIndex) {
+                            slide.classList.add('embla-thumbs__slide--selected');
+                            if (img.classList) {
+                                img.classList.remove('border-transparent', 'opacity-60');
+                                img.classList.add('border-primary-500', 'opacity-100');
+                            }
+                        } else {
+                            slide.classList.remove('embla-thumbs__slide--selected');
+                            if (img.classList) {
+                                img.classList.remove('border-primary-500', 'opacity-100');
+                                img.classList.add('border-transparent', 'opacity-60');
+                            }
+                        }
                     }
                 });
             };
@@ -122,31 +130,34 @@ document.addEventListener('DOMContentLoaded', function () {
             updateSelectedThumbnail();
         }
 
-        // Navigation buttons for gallery
-        const galleryPrevBtn = document.querySelector('.embla__prev');
-        const galleryNextBtn = document.querySelector('.embla__next');
+        // Navigation buttons for gallery (only if not React-managed)
+        const galleryContainer = galleryEmblaNode.closest('.product-gallery');
+        if (!galleryContainer) {
+            const galleryPrevBtn = document.querySelector('.embla__prev:not(.product-gallery .embla__prev)');
+            const galleryNextBtn = document.querySelector('.embla__next:not(.product-gallery .embla__next)');
 
-        if (galleryPrevBtn && galleryNextBtn) {
-            galleryPrevBtn.addEventListener('click', galleryEmblaApi.scrollPrev);
-            galleryNextBtn.addEventListener('click', galleryEmblaApi.scrollNext);
-        }
+            if (galleryPrevBtn && galleryNextBtn) {
+                galleryPrevBtn.addEventListener('click', galleryEmblaApi.scrollPrev);
+                galleryNextBtn.addEventListener('click', galleryEmblaApi.scrollNext);
+            }
 
-        // Optional: Add play/pause button functionality
-        const playPauseBtn = document.querySelector('.embla__play-pause');
-        if (playPauseBtn) {
-            let isPlaying = true;
-            
-            playPauseBtn.addEventListener('click', () => {
-                const autoplay = galleryEmblaApi.plugins().autoplay;
-                if (isPlaying) {
-                    autoplay.stop();
-                    playPauseBtn.textContent = 'Play';
-                } else {
-                    autoplay.play();
-                    playPauseBtn.textContent = 'Pause';
-                }
-                isPlaying = !isPlaying;
-            });
+            // Optional: Add play/pause button functionality
+            const playPauseBtn = document.querySelector('.embla__play-pause:not(.product-gallery .embla__play-pause)');
+            if (playPauseBtn) {
+                let isPlaying = true;
+                
+                playPauseBtn.addEventListener('click', () => {
+                    const autoplay = galleryEmblaApi.plugins().autoplay;
+                    if (isPlaying) {
+                        autoplay.stop();
+                        playPauseBtn.textContent = 'Play';
+                    } else {
+                        autoplay.play();
+                        playPauseBtn.textContent = 'Pause';
+                    }
+                    isPlaying = !isPlaying;
+                });
+            }
         }
     }
 });

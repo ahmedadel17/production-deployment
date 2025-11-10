@@ -67,7 +67,7 @@ function HeaderMobileMenu({ menuData }: { menuData: any }) {
               item?.is_mega_menu ? (
                 <DropDownSubMenu key={index} label={item.label} items={item?.mega_menu_children_columns} onNavigate={() => setIsMenuOpen(false)} />
               ) : (
-                <Link key={index} href={item?.url} className="te-navbar-link-mobile" onClick={() => setIsMenuOpen(false)}>{item?.label}</Link>
+                <Link key={index} href={item?.url} prefetch={false} className="te-navbar-link-mobile" onClick={() => setIsMenuOpen(false)}>{item?.label}</Link>
               )
             ))
           )}

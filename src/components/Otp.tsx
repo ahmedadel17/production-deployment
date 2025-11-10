@@ -34,11 +34,9 @@ export default function Otp2() {
   const { isRTL, direction } = useRTL();
   // Load registration data from localStorage on mount
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedData = localStorage.getItem('registrationData');
-      if (storedData) {
-        setState(prev => ({ ...prev, registrationData: storedData }));
-      }
+    const storedData = localStorage.getItem('registrationData');
+    if (storedData) {
+      setState(prev => ({ ...prev, registrationData: storedData }));
     }
   }, []);
 
@@ -81,9 +79,7 @@ const handleSubmit = useCallback(async () => {
       saveUserData(user);
       
       // Clean up registration data
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('registrationData');
-      }
+      localStorage.removeItem('registrationData');
       
       // Update Redux store with login success
       dispatch(loginSuccess({

@@ -2,7 +2,6 @@
 import { useEffect, useState, ReactNode, useRef } from 'react'
 import axios from 'axios'
 import { generatePaletteFromHex } from '../../tailwindPlugins/colors' // 👈 تأكد من المسار الصحيح
-import Spinner1 from './spinner'
 
 type Props = {
   children: ReactNode
@@ -13,9 +12,12 @@ const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes in milliseconds
 
 export default function ColorProvider({ children }: Props) {
   const [loading, setLoading] = useState(true)
+  const [mounted, setMounted] = useState(false)
   const fetchPromiseRef = useRef<Promise<void> | null>(null)
 
   useEffect(() => {
+    setMounted(true)
+    
     const fetchColors = async () => {
       // Check cache first
       try {
@@ -103,11 +105,16 @@ export default function ColorProvider({ children }: Props) {
     fetchColors()
   }, [])
 
+  // On server, always render children to avoid hydration mismatch
+  if (!mounted) {
+    return <>{children}</>
+  }
+
   if (loading) {
     return (
-        <div className="min-h-screen flex items-center justify-center text-gray-500 text-xl">
-        <Spinner1 />
-        </div>
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-white dark:bg-gray-900 z-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mb-4"></div>
+      </div>
     )
   }
 

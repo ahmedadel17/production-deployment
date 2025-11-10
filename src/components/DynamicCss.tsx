@@ -13,7 +13,7 @@ export default function DynamicCss({ css }: Props) {
     document.head.appendChild(styleEl)
     // Try to (re)initialize slider if present
     try {
-      if (typeof window !== 'undefined' && typeof (window as any).initSiteSlider === 'function') {
+      if (typeof (window as any).initSiteSlider === 'function') {
         ;(window as any).initSiteSlider()
       }
     } catch {}

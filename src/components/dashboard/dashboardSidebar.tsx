@@ -157,13 +157,11 @@ const DashboardSidebar: React.FC = () => {
 
   const handleLogout = () => {
     // Remove authToken, cartData, and wishlistProducts from localStorage
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('cartData');
-      localStorage.removeItem('wishlistProducts');
-      // Also clear cookie
-      document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-    }
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('cartData');
+    localStorage.removeItem('wishlistProducts');
+    // Also clear cookie
+    document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     
     // Call logout function from useAuth hook (this also handles Redux store cleanup)
     logoutUser();

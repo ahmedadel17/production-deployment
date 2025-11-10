@@ -17,12 +17,8 @@ interface SliderComponentProps {
 }
 
 export function SliderComponent({ slides }: SliderComponentProps) {
-  const [isRTL, setIsRTL] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return document.documentElement.getAttribute('dir') === 'rtl';
-    }
-    return false;
-  });
+  const [mounted, setMounted] = useState(false);
+  const [isRTL, setIsRTL] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
@@ -56,15 +52,15 @@ export function SliderComponent({ slides }: SliderComponentProps) {
   }, [emblaApi]);
 
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!mounted || !emblaApi) return;
     onSelect();
     emblaApi.on('select', onSelect);
     emblaApi.on('reInit', onSelect);
-  }, [emblaApi, onSelect]);
+  }, [mounted, emblaApi, onSelect]);
 
   // Reinitialize Embla when direction changes
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!mounted || !emblaApi) return;
     emblaApi.reInit({
       loop: true,
       containScroll: 'trimSnaps',
@@ -73,10 +69,18 @@ export function SliderComponent({ slides }: SliderComponentProps) {
       dragFree: false,
       direction: isRTL ? 'rtl' : 'ltr',
     });
-  }, [emblaApi, isRTL]);
+  }, [mounted, emblaApi, isRTL]);
+
+  // Set mounted state and initialize RTL
+  useEffect(() => {
+    setMounted(true);
+    setIsRTL(document.documentElement.getAttribute('dir') === 'rtl');
+  }, []);
 
   // RTL Detection
   useEffect(() => {
+    if (!mounted) return;
+    
     const checkDirection = () => {
       const htmlDir = document.documentElement.getAttribute('dir');
       setIsRTL(htmlDir === 'rtl');
@@ -91,7 +95,7 @@ export function SliderComponent({ slides }: SliderComponentProps) {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [mounted]);
 
   return (
     <div 
@@ -110,11 +114,12 @@ export function SliderComponent({ slides }: SliderComponentProps) {
       {/* Embla Carousel */}
       <div 
         id="slides-container" 
-        className="embla flex duration-700 ease-in-out relative z-10 w-full" 
+        className="embla flex duration-700 ease-in-out relative z-10 w-full"
         ref={emblaRef}
         style={{ willChange: 'transform' }}
+        suppressHydrationWarning
       >
-        <div className="embla__container flex w-full">
+        <div className="embla__container flex w-full" suppressHydrationWarning>
           {slides?.map((slide, index) => (
             <div 
               key={slide.id} 
@@ -129,6 +134,7 @@ export function SliderComponent({ slides }: SliderComponentProps) {
                 height: '100%',
                 minHeight: '100%'
               }}
+              suppressHydrationWarning
             >
               <div 
                 className="absolute inset-0 z-10 hero-overlay" 

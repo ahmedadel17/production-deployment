@@ -24,8 +24,8 @@ function GallerySlides({ galleryImages, mainRef }: GallerySlidesProps) {
   };
 
   return (
-    <div className="embla overflow-hidden" ref={mainRef}>
-      <div className="embla__container flex">
+    <div className="embla overflow-hidden" ref={mainRef} data-react-managed="true" suppressHydrationWarning>
+      <div className="embla__container flex" suppressHydrationWarning>
         {galleryImages.map((image: string | ImageData, i: number) => {
           const src = typeof image === 'string' ? image : image.original_url || image.url || '';
           const isLoaded = loadedImages.has(i);

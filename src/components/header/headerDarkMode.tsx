@@ -13,10 +13,8 @@ function HeaderDarkMode() {
       setDisplayDarkMode(darkMode);
     } else {
       // Before mount, read from DOM (set by inline script) to prevent flash
-      if (typeof window !== 'undefined') {
-        const isDark = document.documentElement.classList.contains('dark');
-        setDisplayDarkMode(isDark);
-      }
+      const isDark = document.documentElement.classList.contains('dark');
+      setDisplayDarkMode(isDark);
     }
   }, [darkMode, mounted]);
 

@@ -103,9 +103,7 @@ function Registeration() {
             // console.log('Registration response:', response.data);
             
             // Save complete registration data to localStorage
-            if (typeof window !== 'undefined') {
-              localStorage.setItem('registrationData', JSON.stringify(registrationData));
-            }
+            localStorage.setItem('registrationData', JSON.stringify(registrationData));
             
             // Redirect to OTP page - the OTP page will read the complete data from localStorage
             router.push(`/auth/otp?phone=${values.phone}&country=${values.countryCode}`);

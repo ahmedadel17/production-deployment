@@ -2,9 +2,7 @@ import React from "react";
 
 export default function Spinner1() {
   return (
-    <section className="bg-white py-20 dark:bg-dark">
-      <div className="container">
-        <div className="flex flex-wrap items-center gap-4">
+     
         
 
           <div>
@@ -36,8 +34,6 @@ export default function Spinner1() {
           </div>
 
           
-        </div>
-      </div>
-    </section>
+       
   );
 }

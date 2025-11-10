@@ -37,7 +37,7 @@ function DropDownSubMenu({ label, items, onNavigate }: { label: string, items: a
       
       // Otherwise, render as a direct link
       return (
-        <Link key={index} href={item?.url || '#'} className="te-navbar-submenu-mobile-link" onClick={() => { if (onNavigate) onNavigate(); }}>
+        <Link key={index} href={item?.url || '#'} prefetch={false} className="te-navbar-submenu-mobile-link" onClick={() => { if (onNavigate) onNavigate(); }}>
           {item?.label}
         </Link>
       );
