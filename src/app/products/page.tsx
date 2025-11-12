@@ -4,7 +4,6 @@ import { Product } from '../dummyData/products'
 import Breadcrumb from '@/components/header/headerBreadcrumb'
 import getRequest from '../../../helpers/get';
 import { unstable_cache } from 'next/cache';
-
 import ProductSortControls from '@/components/product/widgets/filterform';
 import ProductPagination from '@/components/product/productPagination';
 import { getLocale, getTranslations } from 'next-intl/server';
@@ -167,7 +166,7 @@ async function Products({ searchParams }: ProductsPageProps) {
 
     return (
       <div className="container my-12">
-        <Breadcrumb name="Products" />
+        <Breadcrumb name={t("Products")} />
         <div className="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-4 gap-8">
           {/* Sidebar */}
          <FilterSidebar/>

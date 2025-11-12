@@ -38,15 +38,15 @@ function Login() {
         const errors: Partial<Record<keyof PhoneFormValues, string>> = {};
         
         if (!values.phone) {
-          errors.phone = 'Phone number is required';
+          errors.phone = t('Phone number is required');
         } else {
           // Check if phone contains only digits
           if (!/^\d+$/.test(values.phone)) {
-            errors.phone = 'Phone number must contain only digits';
+            errors.phone = t('Phone number must contain only digits');
           } else if (values.phone.length < 7) {
-            errors.phone = 'Phone number must be at least 7 digits';
+            errors.phone = t('Phone number must be at least 7 digits');
           } else if (values.phone.length > 11) {
-            errors.phone = 'Phone number must not exceed 11 digits';
+            errors.phone = t('Phone number must not exceed 11 digits');
           }
         }
         

@@ -44,7 +44,7 @@ function HeaderWishList() {
             {/* Badge - only show after mount to avoid hydration mismatch */}
             {mounted && wishlistCount > 0 && (
               <span
-                className="header-wishlist-item absolute -top-1 -right-1 bg-primary-200 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center leading-none"
+                className="header-wishlist-item absolute -top-1 -right-1 bg-primary-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center leading-none"
               >
                 {wishlistCount}
               </span>

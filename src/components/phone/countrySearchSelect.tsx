@@ -213,7 +213,7 @@ const CountrySearchSelect: React.FC<CountrySearchSelectProps> = ({
       {/* Label */}
       {label && (
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-          {t(label)}
+          {(label)}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}

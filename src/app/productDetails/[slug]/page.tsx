@@ -19,7 +19,7 @@ async function ProductDetailsPage({ params }: { params: { slug: string } }) {
       'Accept-Language': locale
     }
   });
-  console.log('product', product.data.data);
+  // console.log('product', product.data.data);
   return (
     <>
       

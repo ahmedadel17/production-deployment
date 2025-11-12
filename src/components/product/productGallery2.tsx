@@ -6,14 +6,14 @@ import { useSelector } from "react-redux";
 import { useAuth } from '@/app/hooks/useAuth';
 import { useLocale } from 'next-intl';
 import { useWishlist } from '@/app/hooks/useWishlist';
-import { useRTL } from '@/app/hooks/useRTL';
 import postRequest from '../../../helpers/post';
 import toast from 'react-hot-toast';
 import NavigationArrow from "./productGallery/NavigationArrows";
 import SaleBadge from "./productGallery/saleBadge";
 import Wishlist from "./productGallery/wishlist";
 import GallerySlides from "./productGallery/GallerySlides";
-
+import { useTranslations } from 'next-intl';
+import NavigationArrow2 from "./productGallery/NavigationArrow2";
 
 
 interface ProductGalleryProps {
@@ -34,13 +34,15 @@ interface ProductGalleryProps {
 }
 
 export default function ProductGallery({images, productId, product}: ProductGalleryProps) {
-  const { isRTL } = useRTL();
+  const t = useTranslations();
+  const locale = useLocale(); 
+  const isRTL = locale === 'ar';
   const [mounted, setMounted] = useState(false);
   const [mainRef, mainApi] = useEmblaCarousel({ direction: isRTL ? 'rtl' : 'ltr' });
   const [thumbsRef, thumbsApi] = useEmblaCarousel({ 
     containScroll: "keepSnaps", 
     dragFree: true,
-    direction: isRTL ? 'rtl' : 'ltr'
+    direction: 'ltr'
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isFavourite, setIsFavourite] = useState(false);
@@ -51,7 +53,6 @@ export default function ProductGallery({images, productId, product}: ProductGall
   }, []);
   
   const { token, isAuthenticated } = useAuth();
-  const locale = useLocale();
   const { toggleProduct, isInWishlist } = useWishlist();
   
   // Get variation data from Redux store
@@ -78,12 +79,12 @@ export default function ProductGallery({images, productId, product}: ProductGall
   // Handle wishlist toggle
   const handleWishlistToggle = async () => {
     if (!productId && !product?.id) {
-      toast.error('Product ID is required');
+      toast.error(t('Product ID is required'));
       return;
     }
 
     if (!isAuthenticated) {
-      toast.error('Please login first to add items to wishlist');
+      toast.error(t('Please login first to add items to wishlist'));
       return;
     }
 
@@ -123,16 +124,16 @@ export default function ProductGallery({images, productId, product}: ProductGall
             });
           }
           
-          toast.success(isFavourite ? 'Product removed from favorites!' : 'Product added to favorites successfully!');
+          toast.success(isFavourite ? `${t('Product removed from favorites')}!` : `${t('Product added to favorites successfully')}!`);
         } else {
-          toast.error('Failed to update favorites');
+          toast.error(t('Failed to update favorites'));
         }
       } else {
-        toast.error('Authentication required. Please login again.');
+        toast.error(`${t('Authentication required')}. ${t('Please login again')}`);
       }
     } catch (error) {
       console.error('Error toggling favorite:', error);
-      toast.error('Failed to update favorites');
+      toast.error(`${t('Failed to update favorites')}: ${error}`);
     }
   };
   
@@ -187,7 +188,7 @@ export default function ProductGallery({images, productId, product}: ProductGall
               <svg className="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
               </svg>
-              <p className="text-sm">No image available</p>
+              <p className="text-sm">{t("No image available")}</p>
             </div>
           </div>
         </div>
@@ -200,25 +201,27 @@ export default function ProductGallery({images, productId, product}: ProductGall
       {/* Main Carousel */}
       <div className="product-gallery relative bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <GallerySlides galleryImages={galleryImages} mainRef={mainRef} />
-
         {/* Navigation Arrows - only show if more than one image */}
         {galleryImages.length > 1 && (
           <>
-            <NavigationArrow 
-              onClick={() => mainApi?.scrollPrev()} 
-              direction="prev" 
-              isRTL={isRTL}
-            />
-            <NavigationArrow 
+        <NavigationArrow 
               onClick={() => mainApi?.scrollNext()} 
-              direction="next" 
-              isRTL={isRTL}
+              positionClass='end-4'
+              locale={locale}
             />
+          <NavigationArrow2
+            onClick={() => mainApi?.scrollPrev()} 
+            positionClass='start-4'
+            locale={locale}
+          />
+
+           
+            
           </>
         )}
 
         {/* Sale Badge */}
-        <SaleBadge discount={variationData?.data?.discount || "20% OFF"} />
+        <SaleBadge discount={variationData?.data?.discount || ""} />
 
         {/* Wishlist Button */}
         <Wishlist 

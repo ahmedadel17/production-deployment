@@ -54,12 +54,12 @@ function AddToCartButton({
     // If product has default_variation_id, skip variation validation
     if (!defaultVariationId) {
       if (hasVariations && !variationId && !variationData) {
-        setError('Please select all product variations');
+        setError(t('Please select all product variations'));
         return;
       }
 
       if (isLoadingVariation) {
-        setError('Please wait while we process your selection');
+        setError(t('Please wait while we process your selection'));
         return;
       }
     }
@@ -93,10 +93,9 @@ function AddToCartButton({
         if (response.data.data) {
           dispatch(setCartData(response.data.data));
         }
-        toast.success('Product added to cart successfully!');
+        toast.success(response.data.message || t('Product added to cart successfully')+'!');
       } else {
-        console.error('Add to cart failed:', response.data);
-        toast.error(response.data.message || 'Failed to add to cart');
+        toast.error(response.data.message || t('Failed to add to cart'));
       }
       
     } catch (err) {
@@ -131,7 +130,7 @@ function AddToCartButton({
       <button
         onClick={handleAddToCart}
         disabled={isDisabled}
-        className="w-full py-3 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full py-3 bg-primary-700 text-white rounded-md hover:bg-primary-800 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {isAddingToCart ? (
           <>

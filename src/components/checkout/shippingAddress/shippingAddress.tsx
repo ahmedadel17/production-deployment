@@ -68,7 +68,7 @@ const ShippingAddressManager: React.FC = () => {
 
       {formType === 'new' && (
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Create New Address</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">{t('Create New Address')}</h2>
           <CreateNewAddressForm onAddressCreated={handleAddressCreated} />
         </div>
       )}

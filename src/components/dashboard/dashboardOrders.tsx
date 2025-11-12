@@ -3,7 +3,6 @@ import React, { useState, useMemo, useEffect } from "react";
 import getRequest from "../../../helpers/get";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useLocale } from "next-intl";
-import Link from "next/link";
 import OrderItem from "./dashboardOrdersComponents/orderItem";
 import { useTranslations } from "next-intl";
 interface Order {
@@ -92,7 +91,7 @@ const OrdersPage: React.FC = () => {
                       <span>{t('Order ID')}</span>
                       <input
                         type="text"
-                        placeholder="Filter..."
+                        placeholder={t('Filter')}
                         className="border border-gray-300 rounded-md px-2 py-1 text-sm"
                         value={filters.orderId}
                         onChange={(e) => setFilters({ ...filters, orderId: e.target.value })}

@@ -294,7 +294,7 @@ function ProductDetails({ product }: ProductDetailsProps) {
     const newSelections = { ...variationSelections, [attributeId]: valueId };
     setVariationSelections(newSelections);
     setUserHasSelected(true);
-    console.log('Selected variations:', newSelections);
+    // console.log('Selected variations:', newSelections);
   };
 
   // Render attribute based on type
@@ -409,7 +409,8 @@ function ProductDetails({ product }: ProductDetailsProps) {
           variations: product.variations || []
         });
         
-        toast.success(state.isFavorite ? 'Product removed from favorites!' : 'Product added to favorites successfully!');
+        toast.success(state.isFavorite ? `${t('Product removed from favorites')}!` : `${t('Product added to favorites successfully')}!`);
+
       } else {
         toast.error('Failed to update favorites');
       }

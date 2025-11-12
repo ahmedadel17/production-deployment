@@ -112,8 +112,8 @@ const ChooseExistingAddressForm: React.FC<ChooseExistingAddressFormProps> = ({
       <div className="bg-white dark:bg-gray-800   border-gray-200 dark:border-gray-700 p-6">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">{t('Choose Existing Address')}</h2>
         <div className="text-center py-8">
-          <p className="text-gray-600 dark:text-gray-400 mb-4">{('No saved addresses found')}</p>
-          <p className="text-sm text-gray-500 dark:text-gray-500">{('Please create a new address first')}</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">{t('No saved addresses found')}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-500">{t('Please create a new address first')}</p>
         </div>
       </div>
     );

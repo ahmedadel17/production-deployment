@@ -58,30 +58,30 @@ const CreateNewAddressForm: React.FC<CreateNewAddressFormProps> = ({ onAddressCr
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().notRequired().nullable().min(2, ('Name must be at least 2 characters')),
-    contact_phone: Yup.string().notRequired().nullable().matches(/^[0-9]*$/, ('Phone number must contain only digits')).min(7, ('Phone number must be at least 7 digits')).max(15, ('Phone number must not exceed 15 digits')),
-    country: Yup.string().required(('Country is required')),
-    address: Yup.string().required(('Address is required')),
-    lat: Yup.string().required(('Latitude is required')),
-    lng: Yup.string().required(('Longitude is required')),
-    city_id: Yup.string().required(('City ID is required')),
-    country_id: Yup.string().required(('Country ID is required')),
+    name: Yup.string().notRequired().nullable().min(2, (t('Name must be at least 2 characters'))),
+    contact_phone: Yup.string().notRequired().nullable().matches(/^[0-9]*$/, (t('Phone number must contain only digits'))).min(7, (t('Phone number must be at least 7 digits'))).max(15, (t('Phone number must not exceed 15 digits'))),
+    country: Yup.string().required(t('Country is required')),
+    address: Yup.string().required(t('Address is required')),
+    lat: Yup.string().required(t('Latitude is required')),
+    lng: Yup.string().required(t('Longitude is required')),
+    city_id: Yup.string().required(t('City ID is required')),
+    country_id: Yup.string().required(t('Country ID is required')),
     street: Yup.string().notRequired().nullable(),
     house: Yup.string().notRequired().nullable(),
-    notes: Yup.string().notRequired().nullable().max(500, ('Notes must not exceed 500 characters')),
+    notes: Yup.string().notRequired().nullable().max(500, (t('Notes must not exceed 500 characters'))),
   });
 
   const onSubmit = async(values: CreateAddressData, { resetForm, setFieldTouched, }: FormikHelpers<CreateAddressData>) => {
     // Check if location is selected
     if (!values.lat || !values.lng) {
-      toast.error('Please select a location on the map');
+      toast.error(t('Please select a location on the map'));
       setFieldTouched('lat', true);
       setFieldTouched('lng', true);
       return;
     }
     
     if (!values.city_id || !values.country_id) {
-      toast.error('Please select country and city');
+      toast.error(t('Please select country and city'));
       return;
     }
 
@@ -136,12 +136,12 @@ const CreateNewAddressForm: React.FC<CreateNewAddressFormProps> = ({ onAddressCr
                 />
                    <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                    Search Location
+                    {t('Search Location')}
                   </label>
                   <input
                     ref={searchInputRef}
                     type="text"
-                    placeholder="Search for a location..."
+                    placeholder={t('Search for a location')}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
@@ -167,21 +167,21 @@ const CreateNewAddressForm: React.FC<CreateNewAddressFormProps> = ({ onAddressCr
 
                 <FormikInput
                   name="name"
-                  label={t('Name (optional)')}
-                  placeholder="Enter your name"
+                  label={`${t('Name')} (${t('optional')})` as string}
+                  placeholder={t('Enter your name')}
                 />
 
                 <FormikCountrySearchSelect
                   name="country_id"
                   label={t("Country")}
-                  placeholder="Select your country"
+                  placeholder={t('Select your country')}
                   required
                 />
                 
                 <FormikCitySearchSelect
                   name="city_id"
                   label={t("City")}
-                  placeholder="Select your city"
+                  placeholder={t('Select your city')}
                   required
                 />    
                 <CountryPhoneInput
@@ -212,25 +212,25 @@ const CreateNewAddressForm: React.FC<CreateNewAddressFormProps> = ({ onAddressCr
                   <FormikInput
                     name="address"
                     label={t('Address')}
-                    placeholder="123 Main Street"
+                    placeholder={t('Enter your address')}
                     required
                   />
                   <FormikInput
                     name="street"
-                    label={t('Street Address (optional)')}
-                    placeholder="123 Main Street"
+                    label={`${t('Street Address')} (${t('optional')})` as string}
+                    placeholder={`${t('Enter your street address')} (${t('optional')})`}
                   />
                   <FormikInput
                     name="house"
-                    label={t('Apartment, suite, etc. (optional)')}
-                    placeholder="Apt 4B"
+                    label={`${t('Apartment')} (${t('optional')})` as string}
+                    placeholder={`${t('Enter your apartment')} (${t('optional')})`}
                   />
                 </div>
                 
                 <TextArea
                   name="notes"
-                  label={t('Notes (optional)') as string}
-                  placeholder={t('Add any delivery notes (optional)') as string}
+                  label={`${t('Notes')} (${t('optional')})` as string}
+                  placeholder={`${t('Add any delivery notes')} (${t('optional')})`}
                   rows={4}
                 />
 
@@ -239,7 +239,7 @@ const CreateNewAddressForm: React.FC<CreateNewAddressFormProps> = ({ onAddressCr
                 <input type="hidden" name="lng" value={values.lng} />
 
                 <button type="submit" className="te-btn te-btn-primary w-full" disabled={isSubmitting}>
-                  {isSubmitting ?   t('Saving...') : (mode === 'edit' ? t('Update Address') : t('Save Address'))}
+                  {isSubmitting ?   t('Saving') : (mode === 'edit' ? t('Update Address') : t('Save Address'))}
                 </button>
               </div>
             </Form>

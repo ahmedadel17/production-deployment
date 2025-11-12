@@ -7,13 +7,14 @@ import postRequest from '../../../../helpers/post';
 import { useOrder } from '@/app/hooks/useOrder';
 import { useCart } from '@/app/hooks/useCart';
 import { useAuth } from '@/app/hooks/useAuth';
-
+import { useTranslations } from 'next-intl';
 interface HyperPayPaymentProps {
   selectedBrand?: string;
   onPaymentReady?: () => void;
 }
 
 export default function HyperPayPayment({ selectedBrand, onPaymentReady }: HyperPayPaymentProps) {
+  const t = useTranslations();
   const url= window.location.origin;
   const [checkoutId, setCheckoutId] = useState<string>('');
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -98,18 +99,20 @@ export default function HyperPayPayment({ selectedBrand, onPaymentReady }: Hyper
                     <svg className="w-6 h-6 animate-spin text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <span className="text-gray-600">Preparing payment...</span>
+                    <span className="text-gray-600">{t("Preparing payment")}...</span>
                   </div>
                 </div>
               ) : checkoutId ? (
                   <>
-                  <div className="mb-4 p-3 bg-blue-50 rounded-md">
-                    <h3 className="text-sm font-medium text-blue-900">Debug Info:</h3>
-                    <p className="text-xs text-blue-700">Checkout ID: {checkoutId}</p>
-                    <p className="text-xs text-blue-700">Script Loaded: {scriptLoaded ? 'Yes' : 'No'}</p>
-                    <p className="text-xs text-blue-700">Cart ID: {cartData?.id || 'None'}</p>
-                    <p className="text-xs text-blue-700">Selected Brand: {selectedBrand || 'None'}</p>
-                  </div>
+                    {
+                    !scriptLoaded && (
+                      <div className="flex items-center justify-center py-12">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+                      <span className="ml-3 text-gray-600 dark:text-gray-400">{t('Loading')}</span>
+                    </div>
+                    )
+                    
+                    } 
                   
                   <form
                       action={`${url}/checkoutConfirmation/pending?orderId=${cartData?.id}`}
@@ -132,8 +135,8 @@ export default function HyperPayPayment({ selectedBrand, onPaymentReady }: Hyper
               ) : (
                 <div className="flex items-center justify-center p-2">
                   <div className="text-center">
-                    <div className="text-gray-500 mb-2">Payment form not available</div>
-                    <div className="text-sm text-gray-400">Please try again or contact support</div>
+                    <div className="text-gray-500 mb-2">{t("Payment form not available")}</div>
+                    <div className="text-sm text-gray-400">{t("Please try again or contact support")}</div>
                   </div>
                 </div>
               )}

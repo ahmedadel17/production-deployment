@@ -37,17 +37,17 @@ const CartDropdown: React.FC = () => {
     // console.log('Removing item with ID:', id);
     if (!id) {
       // console.error('Item ID is missing:', id);
-      toast.error('Unable to remove item: ID not found');
+      toast.error(t('Unable to remove item'));
       return;
     }
     if (!cartData?.id) {
       // console.error('Cart ID is missing');
-      toast.error('Unable to remove item: Cart not found');
+      toast.error(t('Unable to remove item'));
       return;
     }
     if (!token) {
       // console.error('Token is missing');
-      toast.error('Please login to continue');
+      toast.error(t('Please login to continue'));
       router.push('/auth/login');
       return;
     }
@@ -71,7 +71,7 @@ const CartDropdown: React.FC = () => {
         toast.success(response.data.message);
       } else {
         console.error('Invalid response:', response.data);
-        toast.error('Failed to remove item: Invalid response');
+        toast.error(t('Failed to remove item'));
       }
     } catch (error) {
       console.error('Error deleting item:', error);
@@ -113,7 +113,7 @@ const CartDropdown: React.FC = () => {
 
             {/* Badge - only show after mount to avoid hydration mismatch */}
             {mounted && (cartData?.cart_count || 0) > 0 && (
-              <span className="header-cart-item absolute -top-1 -right-1 bg-primary-200 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center leading-none">
+              <span className="header-cart-item absolute -top-1 -right-1 bg-primary-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center leading-none">
                 {cartData?.cart_count || 0}
               </span>
             )}
@@ -177,7 +177,7 @@ const CartDropdown: React.FC = () => {
                 </a>
               </div>
               <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                Qty: {item.qty} × <span>{item.price.toFixed(2)}</span>
+                {t('Qty')}: {item.qty} × <span>{item.price.toFixed(2)}</span>
               </div>
             </div>
 

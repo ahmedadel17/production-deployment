@@ -168,7 +168,7 @@ const QuickView: React.FC<QuickViewProps> = ({
         } else {
           await loadCartFromStorage();
         }
-        toast.success('Product added to cart successfully!');
+        toast.success(response.data.message || t('Product added to cart successfully')+'!');
         onClose(); // Close modal after successful add to cart
       } else {
         console.error('Add to cart failed:', response.data);

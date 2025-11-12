@@ -11,7 +11,7 @@ function ProductPrice({ price, old_price }: { price: number, old_price: number |
         <span className="icon-riyal-symbol"></span>
         <span>{price}</span>
     </span>
-    {old_price && <span  className="text-lg text-gray-500 dark:text-gray-400 line-through">
+    {old_price !==price && <span  className="text-lg text-gray-500 dark:text-gray-400 line-through">
         <span className="icon-riyal-symbol"></span>
         <span>{old_price}</span>
     </span>}

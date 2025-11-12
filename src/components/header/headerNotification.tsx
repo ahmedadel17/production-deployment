@@ -12,7 +12,7 @@ function HeaderNotification() {
                 </svg>
 
                 {/* <!-- Badge --> */}
-                <span className="header-notification-item absolute -top-1 -right-1 bg-primary-200 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center leading-none">
+                <span className="header-notification-item absolute -top-1 -right-1 bg-primary-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center leading-none">
                     5
                 </span>
             </div>

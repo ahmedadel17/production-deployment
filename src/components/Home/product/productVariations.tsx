@@ -158,14 +158,13 @@ function ProductVariations({
           category: product.category || '',
           variations: product.variations || []
         });
-        
-        toast.success(state.isFavorite ? 'Product removed from favorites!' : 'Product added to favorites successfully!');
+        toast.success(state.isFavorite ? `${t('Product removed from favorites')}!` : `${t('Product added to favorites successfully')}!`);
       } else {
-        toast.error('Failed to update favorites');
+        toast.error(t('Failed to update favorites'));
       }
     } catch (error) {
       console.error('Error toggling favorite:', error);
-      toast.error('Failed to update favorites');
+      toast.error(t('Failed to update favorites'));
     } finally {
       setState(prev => ({ ...prev, isFavoriteLoading: false }));
     }
@@ -174,24 +173,24 @@ function ProductVariations({
   const handleAddToCart = async () => {
     // Check authentication first
     if (!isAuthenticated) {
-      toast.error('Please login first to add items to cart');
+      toast.error(t('Please login first to add items to cart'));
       return;
     }
 
     if (!token) {
-      toast.error('Authentication required. Please login again.');
+      toast.error(`${t('Authentication required')}. ${t('Please login again')}`);
       return;
     }
 
     // If product has default_variation_id, skip color/size validation
     if (!product?.default_variation_id) {
       if (!state.selectedColor || !state.selectedSize) {
-        alert('Please select both color and size');
+        toast.error(t('Please select all product variations'));
         return;
       }
 
       if (!state.selectedColorId || !state.selectedSizeId) {
-        alert('Please wait while we process your selection');
+        toast.error(t('Please wait while we process your selection'));
         return;
       }
     }
@@ -226,15 +225,15 @@ function ProductVariations({
           // Fallback: reload cart from storage if no data in response
           await loadCartFromStorage();
         }
-        toast.success('Product added to cart successfully!');
-        
+        toast.success(`${t('Product added to cart successfully')}!`);
+            
       } else {
         console.error('Add to cart failed:', response.data);
-        toast.error('Failed to add product to cart');
+        toast.error(t('Failed to add product to cart'));
       }
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('An error occurred while adding to cart');
+      toast.error(t('An error occurred while adding to cart'));
     } finally {
       setState(prev => ({ ...prev, isAddingToCart: false }));
     }
@@ -303,7 +302,7 @@ function ProductVariations({
                   ? 'border-gray-800 ring-2 ring-gray-400' 
                   : 'border-gray-300'
               }`}
-              title={`Select ${color.color}`}
+              title={`${t('Select')} ${color.color}`}
             />
           ))}
           {variations[1].values.length > 4 && (
@@ -342,7 +341,7 @@ function ProductVariations({
                   ? 'border-primary-600 bg-primary-50 text-primary-600 dark:bg-primary-50 dark:text-primary-400 '
                   : 'border-gray-300 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
               }`}
-              title={`Select ${size.value}`}
+              title={`${t('Select')} ${size.value}`}
             >
               {size.value}
             </button>
