@@ -129,7 +129,7 @@ function Login() {
           error={errors.phone}
           touched={touched.phone}
           disabled={isSubmitting}
-          label="Phone Number"
+          label={t("Phone Number")}
           required
           initialCountryCode="SA"
         />

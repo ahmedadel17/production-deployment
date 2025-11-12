@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import "react-phone-input-2/lib/style.css";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../app/hooks/useAuth";
+import { useTranslations } from "next-intl";
 
 // Dynamically import the phone input to disable SSR on this component
 const PhoneInput = dynamic(() => import("react-phone-input-2"), { ssr: false });
@@ -13,7 +14,7 @@ const PhoneInput = dynamic(() => import("react-phone-input-2"), { ssr: false });
 const PhoneForm = () => {
   const router = useRouter();
   const { sendOTP, isLoading, error, clearError } = useAuth();
-  
+  const t = useTranslations();
   return (
     <Formik
       initialValues={{ phone: "" }}
@@ -49,7 +50,7 @@ const PhoneForm = () => {
         <Form className="max-w-sm mx-auto p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 space-y-5">
           <div>
             <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
-              Phone Number
+             {t("Phone Number")} *
             </label>
             <PhoneInput
               country={"eg"}
