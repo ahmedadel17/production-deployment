@@ -7,7 +7,7 @@ import "react-phone-input-2/lib/style.css";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../app/hooks/useAuth";
 import { useTranslations } from "next-intl";
-
+  
 // Dynamically import the phone input to disable SSR on this component
 const PhoneInput = dynamic(() => import("react-phone-input-2"), { ssr: false });
 
