@@ -891,5 +891,6 @@
    "Add Selected to Cart":"إضافة المنتجات المختارة إلى السلة",
    "Remove Selected":"إزالة المنتجات المختارة",
    "Clear Wishlist":"مسح قائمة المفضلة",
-   "We will keep them safe here for you":"سنحفظها هنا لك"
+   "We will keep them safe here for you":"سنحفظها هنا لك",
+   "Error updating quantity":"خطأ في تحديث الكمية"
 }

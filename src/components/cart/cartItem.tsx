@@ -66,10 +66,10 @@ function CartItem({item}: CartItemProps) {
       );
       dispatch(setCartData(response.data.data));
 
-        toast.success('Quantity updated in cart successfully!');
+        toast.success(response.data.message);
       // You can add success feedback here if needed
     } catch (error) {
-      toast.error('Error updating quantity');
+      toast.error(t('Error updating quantity'));
     } finally {
       setIsUpdating(false);
     }
