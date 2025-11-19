@@ -28,7 +28,7 @@ const QuickView: React.FC<QuickViewProps> = ({
   const { loadCartFromStorage } = useCart();
   const t = useTranslations();
   const [variationId, setVariationId] = useState<number | null>(null);
-  const [variationData, setVariationData] = useState<{ id?: number; name?: string; price_after_discount?: string; price_before_discount?: string; stock?: number } | null>(null);
+  const [variationData, setVariationData] = useState<{ id?: number; name?: string; price_after_discount?: string | number; price_befor_discount?: string | number; stock?: number } | null>(null);
   const [isLoadingVariation, setIsLoadingVariation] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -217,7 +217,7 @@ const QuickView: React.FC<QuickViewProps> = ({
               <h3 className="text-lg font-semibold mb-2">
                 {variationData?.name || product?.title || product?.name || 'Product Title'}
               </h3>
-             <ProductPrice min_price={parseFloat(variationData?.price_befor_discount? variationData?.price_befor_discount : product.min_price)} price_after_discount={variationData?.price_after_discount ? parseFloat(variationData?.price_after_discount) : product.price_after_discount} />
+             <ProductPrice min_price={parseFloat(variationData?.price_befor_discount? variationData?.price_befor_discount as string : product.min_price as string)} price_after_discount={variationData?.price_after_discount ? parseFloat(variationData?.price_after_discount as string) : (product.price_after_discount ? parseFloat(product.price_after_discount as string) : 0)} />
 
               {/* Product Variations */}
               {product.variations && product.variations.length > 0 && (
